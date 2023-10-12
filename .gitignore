@@ -1,0 +1,5 @@
+.vscode
+tmp*
+build*
+bin*
+cmake-gen-and-install.cmd
