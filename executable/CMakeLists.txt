@@ -18,12 +18,6 @@ QuickCompiler
 )
 find_package(Qt${QT_DEFAULT_MAJOR_VERSION} QUIET COMPONENTS QmlWorkerScript)
 
-# enable QML debugging
-string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_lower)
-if(cmake_build_type_lower MATCHES "debug")
-    add_definitions(-DQT_QML_DEBUG)
-endif()
-
 ## Sources
 set(HDRS
 	)
@@ -36,13 +30,27 @@ set(SRCS
     "main.cpp"
 	)
 
+set(PROJECT_SOURCES ${SRCS} ${HDRS})
+
+## QML Settings
+# enable QML debugging
+string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_lower)
+if(cmake_build_type_lower MATCHES "debug")
+    add_definitions(-DQT_QML_DEBUG)
+endif()
+
+include_directories(${Qt5Widgets_INCLUDE_DIRS} ${QtQml_INCLUDE_DIRS})
+add_definitions(${Qt5Widgets_DEFINITIONS} ${QtQml_DEFINITIONS} ${${Qt5Quick_DEFINITIONS}})
 if (QT_DEFAULT_MAJOR_VERSION EQUAL 5)
   qt5_add_resources(qml_QRC qml.qrc)
 else()
   qt6_add_resources(qml_QRC qml.qrc)
 endif()
 
-set(PROJECT_SOURCES ${SRCS} ${HDRS})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 ## Executable
 message(STATUS "Building ${PROJECT_NAME}Executable...")
