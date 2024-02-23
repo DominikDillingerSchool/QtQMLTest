@@ -1,5 +1,8 @@
+#include "listModel.h"
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 int main(int argc, char *argv[])
 {
@@ -8,6 +11,11 @@ int main(int argc, char *argv[])
     QCoreApplication::addLibraryPath("./");
 
     QQmlApplicationEngine engine;
+    ListModel model;
+    model.appendEntry("test123");
+
+    engine.rootContext()->setContextProperty("CustomListModel", &model);
+
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();

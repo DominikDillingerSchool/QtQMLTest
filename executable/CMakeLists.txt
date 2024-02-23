@@ -21,13 +21,14 @@ find_package(Qt${QT_DEFAULT_MAJOR_VERSION} REQUIRED ${QT_MODULES} COMPONENTS)
 
 # Sources
 set(HDRS
+  "listModel.h"
 )
 set(UI
   "main.qml"
-  "Cell.qml"
   )
 set(SRCS
   "main.cpp"
+  "listModel.cpp"
 )
 qt_add_resources(qml_QRC qml.qrc)
 set(PROJECT_SOURCES ${SRCS} ${HDRS} ${UI} ${qml_QRC})
@@ -93,6 +94,7 @@ if(${QT_EXECUTABLE_LOCATION} STREQUAL "QT_EXECUTABLE_LOCATION-NOTFOUND")
 endif()
 message(STATUS "Found QT_EXECUTABLE_LOCATION: ${QT_EXECUTABLE_LOCATION}")
 
+#[[
 if(${QT_DEFAULT_MAJOR_VERSION} GREATER_EQUAL 6)
   qt_generate_deploy_qml_app_script(
     TARGET ${PROJECT_NAME}Executable
@@ -103,6 +105,7 @@ if(${QT_DEFAULT_MAJOR_VERSION} GREATER_EQUAL 6)
   )
   install(SCRIPT ${deploy_script})
 endif()
+}}
 
 #[[
 ## Install runtime library

@@ -1,100 +1,78 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts
 
 ApplicationWindow {
     visible: true
+    width: 500
+    height: 500
+    maximumHeight: height
+    maximumWidth: width
+    minimumHeight: height
+    minimumWidth: width
 
-    //title of the application
-    title: qsTr("Hello World")
-    width: 640
-    height: 480
+    ColumnLayout {
+       anchors.fill: parent
 
-    //menu containing two menu items
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("File")
-            MenuItem {
-                text: qsTr("&Open")
-                onTriggered: console.log("Open action triggered");
+        RowLayout {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.verticalStretchFactor: 2
+
+            TextField {
+                id: textField
+                placeholderText: ""
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.horizontalStretchFactor: 3
             }
-            MenuItem {
-                text: qsTr("Exit")
-                onTriggered: Qt.quit();
-            }
-        }
-    }
 
-    //Content Area
+            Button {
+                text: "Add"
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                Layout.horizontalStretchFactor: 1
 
-    Button {
-        id: helloButton
-        text: qsTr("Hello World")
-        anchors.top: parent.top
-        anchors.left: parent.left
-        onClicked: {
-            console.log("Hello World!")
-            this.text = "Hello, indeed."
-        }
-    }
-
-    Text {
-        id: helloText
-        text: "Hello world!"
-        y: 30
-        anchors.horizontalCenter: parent.horizontalCenter
-        font.pointSize: 24; font.bold: true
-
-        MouseArea { id: mouseArea; anchors.fill: parent }
-
-        states: State {
-            name: "down"; when: mouseArea.pressed == true
-            PropertyChanges {
-                target: helloText
-                y: 160
-                rotation: 180
-                color: "red"
+                onClicked: {
+                    CustomListModel.appendEntry(textField.text)
+                }
             }
         }
 
-        transitions: Transition {
-            from: ""; to: "down"; reversible: true
-            ParallelAnimation {
-                NumberAnimation { properties: "y,rotation"; duration: 500; easing.type: Easing.InOutQuad }
-                ColorAnimation { duration: 500 }
+        ListView {
+            id: listView
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.verticalStretchFactor: 8
+
+            model: CustomListModel
+            // model: ListModel {
+            //     ListElement {
+            //         name: "test12345"
+            //         entryId: 1
+            //     }
+            // }
+
+            delegate: Rectangle {
+                height: 40
+                width: listView.width
+
+                Text {
+                    text: name
+                    height: parent.height
+                    width: (parent.width * 0.8)
+                    anchors.left: parent.left
+                }
+                Button {
+                    text: "Delete"
+                    height: parent.height
+                    width: (parent.width * 0.2)
+                    anchors.right: parent.right
+                    onClicked: {
+                        CustomListModel.deleteEntry(entryId)
+                    }
+                }
             }
-        }
-    }
-
-    Grid {
-        id: colorPicker
-        x: 4; anchors.bottom: parent.bottom; anchors.bottomMargin: 4
-        rows: 2; columns: 3; spacing: 3
-
-        Cell { cellColor: "red"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "green"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "blue"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "yellow"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "steelblue"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "black"; onClicked: helloText.color = cellColor }
-    }
-
-    property int displayValue: 12
-
-    Text {
-        id: displayTextId
-        anchors.left: addOneButtonId.right
-
-        text: displayValue.toString() //more clear if you explicit the parent rootWindow.displayValue.toString()
-    }
-
-    Button {
-        id: addOneButtonId
-        anchors.left: helloButton.right
-
-        text: "Increment"
-        onClicked: {
-            displayValue++
-            console.log("Increment by one.")
         }
     }
 }
