@@ -46,12 +46,6 @@ ApplicationWindow {
             Layout.verticalStretchFactor: 8
 
             model: CustomListModel
-            // model: ListModel {
-            //     ListElement {
-            //         name: "test12345"
-            //         entryId: 1
-            //     }
-            // }
 
             delegate: Rectangle {
                 height: 40

@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     ListModel model;
-    model.appendEntry("test123");
 
     engine.rootContext()->setContextProperty("CustomListModel", &model);
 
