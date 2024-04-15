@@ -1,8 +1,9 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Layouts
+import QtQuick.Layouts 1.15
 
 ApplicationWindow {
+    id: mainWindow
     visible: true
     width: 500
     height: 500
@@ -10,41 +11,41 @@ ApplicationWindow {
     maximumWidth: width
     minimumHeight: height
     minimumWidth: width
-
+    
+    Shortcut {
+        sequence: "Ctrl+Shift+Q"
+        onActivated: {
+            textEdit.text = Benchmark.benchmarks(listView.model);
+        }
+    }
+    
     ColumnLayout {
        anchors.fill: parent
 
         RowLayout {
-            Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.verticalStretchFactor: 2
+            Layout.preferredHeight: mainWindow.height * 0.2
 
-            TextField {
-                id: textField
-                placeholderText: ""
+            TextArea  {
+                id: textEdit
+                wrapMode: TextEdit.WrapAnywhere
                 Layout.fillHeight: true
-                Layout.fillWidth: true
-                Layout.horizontalStretchFactor: 3
+                Layout.preferredWidth: mainWindow.width * 0.75
             }
 
             Button {
                 text: "Add"
                 Layout.fillHeight: true
-                Layout.fillWidth: true
-                Layout.horizontalStretchFactor: 1
-
+                Layout.preferredWidth: mainWindow.width * 0.25
                 onClicked: {
-                    CustomListModel.appendEntry(textField.text)
+                    CustomListModel.appendEntry(textEdit.text)
                 }
             }
         }
-
         ListView {
             id: listView
-            Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.verticalStretchFactor: 8
-
+            Layout.preferredHeight: mainWindow.height * 0.8
             model: CustomListModel
 
             delegate: Rectangle {
@@ -57,6 +58,7 @@ ApplicationWindow {
                     width: (parent.width * 0.8)
                     anchors.left: parent.left
                 }
+
                 Button {
                     text: "Delete"
                     height: parent.height

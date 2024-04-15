@@ -56,10 +56,10 @@ target_link_libraries(${PROJECT_NAME}EmptyExecutable PRIVATE ${QT_PREFIXED_MODUL
 target_include_directories(${PROJECT_NAME}EmptyExecutable PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 ## Static link to runtime library
-if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_link_options(${PROJECT_NAME}EmptyExecutable PRIVATE -stdlib=libc++ -lpthread -g)
-elseif(${MSVC})
-  # target_link_options(${PROJECT_NAME}EmptyExecutable PRIVATE "/MT")
+elseif(MSVC)
+  target_compile_options(${PROJECT_NAME}EmptyExecutable PRIVATE "/MT")
 else()
   target_link_options(${PROJECT_NAME}EmptyExecutable PRIVATE -static-libstdc++ -static-libgcc -g)
 endif()

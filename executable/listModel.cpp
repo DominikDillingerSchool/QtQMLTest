@@ -48,7 +48,7 @@ void ListModel::appendEntry(const QString &name)
     endInsertRows();
 }
 
-void ListModel::deleteEntry(const long idToDelete)
+void ListModel::deleteEntry(const unsigned int &idToDelete)
 {
     for (auto index = 0; index < m_entries.count(); index++)
     {
@@ -60,4 +60,12 @@ void ListModel::deleteEntry(const long idToDelete)
             index--;
         }
     }
+}
+
+Q_INVOKABLE void ListModel::clearModel()
+{
+    beginResetModel();
+    m_idCounter = 0;
+    m_entries.clear();
+    endResetModel();
 }

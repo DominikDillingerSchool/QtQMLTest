@@ -22,6 +22,7 @@ find_package(Qt${QT_DEFAULT_MAJOR_VERSION} REQUIRED ${QT_MODULES} COMPONENTS)
 # Sources
 set(HDRS
   "listModel.h"
+  "benchmark.h"
 )
 set(UI
   "main.qml"
@@ -29,6 +30,7 @@ set(UI
 set(SRCS
   "main.cpp"
   "listModel.cpp"
+  "benchmark.cpp"
 )
 qt_add_resources(qml_QRC qml.qrc)
 set(PROJECT_SOURCES ${SRCS} ${HDRS} ${UI} ${qml_QRC})
@@ -58,10 +60,10 @@ target_link_libraries(${PROJECT_NAME}Executable PRIVATE ${QT_PREFIXED_MODULES})
 target_include_directories(${PROJECT_NAME}Executable PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 ## Static link to runtime library
-if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_link_options(${PROJECT_NAME}Executable PRIVATE -stdlib=libc++ -lpthread -g)
-elseif(${MSVC})
-  # target_link_options(${PROJECT_NAME}Executable PRIVATE "/MT")
+elseif(MSVC)
+  target_compile_options(${PROJECT_NAME}Executable PRIVATE "/MT")
 else()
   target_link_options(${PROJECT_NAME}Executable PRIVATE -static-libstdc++ -static-libgcc -g)
 endif()

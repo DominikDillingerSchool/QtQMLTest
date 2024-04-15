@@ -22,15 +22,16 @@ class ListModel : public QAbstractListModel
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     Q_INVOKABLE void appendEntry(const QString &name);
-    Q_INVOKABLE void deleteEntry(const long idToDelete);
+    Q_INVOKABLE void deleteEntry(const unsigned int &idToDelete);
+    Q_INVOKABLE void clearModel();
 
   private:
     struct Entry
     {
-        int entryId;
+        unsigned int entryId;
         QString name;
     };
 
     QList<Entry> m_entries;
-    long m_idCounter;
+    unsigned int m_idCounter;
 };
