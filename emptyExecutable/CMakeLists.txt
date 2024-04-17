@@ -21,13 +21,18 @@ find_package(Qt${QT_DEFAULT_MAJOR_VERSION} REQUIRED ${QT_MODULES} COMPONENTS)
 
 # Sources
 set(HDRS
+  "benchmark.h"
 )
+
 set(UI
   "main.qml"
-  )
+)
+
 set(SRCS
   "main.cpp"
+  "benchmark.cpp"
 )
+
 qt_add_resources(qml_QRC qml.qrc)
 set(PROJECT_SOURCES ${SRCS} ${HDRS} ${UI} ${qml_QRC})
 

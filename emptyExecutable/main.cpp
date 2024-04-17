@@ -1,5 +1,8 @@
+#include "benchmark.h"
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 int main(int argc, char *argv[])
 {
@@ -8,6 +11,10 @@ int main(int argc, char *argv[])
     QCoreApplication::addLibraryPath("./");
 
     QQmlApplicationEngine engine;
+
+    Benchmark *benchmark = new Benchmark();
+    engine.rootContext()->setContextProperty("Benchmark", benchmark);
+
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();

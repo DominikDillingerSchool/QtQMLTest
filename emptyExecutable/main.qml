@@ -9,4 +9,11 @@ ApplicationWindow {
     maximumWidth: width
     minimumHeight: height
     minimumWidth: width
+
+     Shortcut {
+        sequence: "Ctrl+Shift+Q"
+        onActivated: {
+            Benchmark.getCurrentMemoryUsage();
+        }
+    }
 }
